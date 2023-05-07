@@ -34,10 +34,9 @@ async function fetchMeaning(word) {
             for(let i=0; i<synonymsArray.length; i++) {
                 synonymData += `<p class="pills">${synonymsArray[i]}</p>`
             }
-            synonyms.innerHTML = synonymData;
         } else {
             synonymData = `<p class="pills">No Synonyms available</p>`;
-            synonyms.innerHTML = synonymData;
         } 
+        synonyms.innerHTML = synonymData;
     }
 }
