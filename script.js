@@ -9,19 +9,25 @@ const url = "https://api.dictionaryapi.dev/api/v2/entries/en/";
 
 const handle = (e) => {
     if (e.keyCode === 13) {
-        console.log(e.target.value);
+        const searchWord = e.target.value;
         console.log("enter pressed");
-        fetchMeaning(e.target.value);
+        fetchMeaning(searchWord);
     }
 }
 
 async function fetchMeaning(word) {
     var jsonResponse = await fetch(url + word);
-
-    if (jsonResponse.ok) {
-        var data = await jsonResponse.json();
+    var data = await jsonResponse.json();
+    
+    if (jsonResponse.ok) {    
+        //Display fields if there are hidden
         resultDiv.style.display = "block";
-        console.log(data);
+        audio.style.display = 'block';
+        phonetics.style.display = 'block';
+        document.querySelectorAll(".wordmeaning")[0].style.display = 'block';
+        synonyms.style.display = 'block';
+
+        //Setting values to HTML elements
         wordElement.innerText = data[0].word;
         phonetics.innerText = data[0].phonetics[0].text;
         audio.src = data[0].phonetics[0].audio;
@@ -38,5 +44,13 @@ async function fetchMeaning(word) {
             synonymData = `<p class="pills">No Synonyms available</p>`;
         } 
         synonyms.innerHTML = synonymData;
+    } else{
+        wordElement.innerText = data.title;
+        wordmeanings.innerText = data.message;
+        phonetics.style.display = 'none';
+        audio.style.display = 'none';
+        document.querySelectorAll(".wordmeaning")[0].style.display = 'none';
+        document.querySelectorAll(".wordmeaning")[1].style.display = 'none';
+        synonyms.style.display = 'none';
     }
 }
